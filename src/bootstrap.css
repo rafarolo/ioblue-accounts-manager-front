@@ -561,9 +561,25 @@ pre code {
   margin-left: auto;
 }
 
+@media (max-width: 576px) {
+  #photobox {
+    float: none !important;
+    clear: none !important;
+    margin-bottom: 26px;
+  }
+}
+
+  
+
 @media (min-width: 576px) {
   .container, .container-sm {
     max-width: 540px;
+  }
+
+  #photobox {
+    float: none !important;
+    clear: none !important;
+    margin-bottom: 26px;
   }
 }
 
@@ -571,17 +587,34 @@ pre code {
   .container, .container-sm, .container-md {
     max-width: 720px;
   }
+  #photobox {
+    float: right !important;
+    clear: both !important;
+    margin-top: 26px;
+  }
 }
 
 @media (min-width: 992px) {
   .container, .container-sm, .container-md, .container-lg {
     max-width: 960px;
   }
+
+  #photobox {
+    float: right !important;
+    clear: both !important;
+    margin-top: 26px;
+  }
 }
 
 @media (min-width: 1200px) {
   .container, .container-sm, .container-md, .container-lg, .container-xl {
     max-width: 1140px;
+  }
+
+  #photobox {
+    float: right !important;
+    clear: both !important;
+    margin-top: 26px;
   }
 }
 
