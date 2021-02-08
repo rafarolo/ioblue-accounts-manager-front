@@ -1,7 +1,7 @@
 <div>
-    <div *ngIf="currentAccount.id" class="edit-form">
-        <form>
-            <div style="position: absolute; left: 8%;" class="col-3">
+    <div *ngIf="currentAccount.id">
+        <form class="row">
+            <div class="col-6">
                 <h4>Account Details</h4>
 
                 <div class="form-group">
@@ -9,7 +9,7 @@
                     <input readonly class="form-control" id="id" required [(ngModel)]="currentAccount.id" name="id" />
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" >
                     <label><strong>Type:</strong></label>
                     <label for="cpf" class="radio-inline">
                         <input type="radio" id="cpf" required [(ngModel)]="currentAccount.type" name="cpf"
@@ -73,51 +73,42 @@
                         </svg>
                     </div>
                 </div>
-            </div>
+            
 
-            <div style="position: absolute; bottom: 26px;">
-                <button class="badge badge-danger mr-2" (click)="deleteAccount()">
+            <div style="text-align: right;">
+                <button class="badge badge-danger" (click)="deleteAccount()">
                     Delete
                 </button>
     
-                <button class="badge badge-primary mr-2" *ngIf="currentAccount.active" (click)="updateActive(false)">
+                <button class="badge badge-primary" *ngIf="currentAccount.active" (click)="updateActive(false)">
                     Inactivate
                 </button>
     
-                <button *ngIf="!currentAccount.active" class="badge badge-primary mr-2" (click)="updateActive(true)">
+                <button *ngIf="!currentAccount.active" class="badge badge-primary" (click)="updateActive(true)">
                     Activate
                 </button>
     
-                <button type="submit" class="badge badge-success mb-2" (click)="updateAccount()">
+                <button type="submit" class="badge badge-success" (click)="updateAccount()">
                     Update
                 </button>
                 
                 <div style="text-align: center; font-weight: bold; margin-top: 8px;">
                     <p>{{ message }}</p>
                 </div>
-    
             </div>
 
-            <script>
-                $scope.s3Url = 'https://ioblue.s3.us-east-2.amazonaws.com/';
-                var bucket = new AWS.S3({ params: { Bucket: 'ioblue' } });
-                bucket.listObjects(function (err, data) {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        console.log(data);
-                        $scope.allImageData = data.Contents;
-                    }
-                });
-            </script>
-            <div style="position: absolute; right: 26%;" class="col-4">
-
+        </div>
+            
+            <div class="col-6">
                 <div style="text-align: center;">
                     <h4>Photo Profile</h4>
                     <img id="photo" [src]="getLinkPicture()" width="269px" height="269px"
                         onError="this.src='https://t4.ftcdn.net/jpg/03/32/59/65/360_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg'" />
                 
-
+                <div *ngIf="imageExists()">
+                    <button class="badge badge-secondary" style="margin-left: 10px" (click)="viewFile()">View File</button>
+                    <button class="badge badge-danger" style="margin-left: 10px" (click)="deleteFile()">Delete File</button>
+                </div>
                 <br><br><br>
                 <h4>File Manager</h4>
 
@@ -133,10 +124,6 @@
                 </button>
                 <br><br><br>
                 <!-- <input type="text" placeholder="Selected file name..." name="image" [(ngModel)]="selectedFiles[0].name" [disabled]="!selectedFiles"/> -->
-                <div *ngIf="imageExists()">
-                    <button class="btn btn-secondary" style="margin-left: 10px" (click)="viewFile()">View File</button>
-                    <button class="btn btn-danger" style="margin-left: 10px" (click)="deleteFile()">Delete File</button>
-                </div>
                 <div style="text-align: center; font-weight: bold; margin-top: 26px;">
                     <p>{{ messageFile }}</p>
                 </div>
@@ -145,9 +132,11 @@
         </form>
     </div>
 
-    <div *ngIf="!currentAccount.id" style="font-weight: bold; margin-top: 26px; font-size: 26px;">
+    <div *ngIf="!currentAccount.id" style="font-weight: bold; margin-top: 26px; font-size: 26px; text-align: center; color: red; font-variant: small-caps;">
         <br />
-        <p>Can't access this account, please verify if it really exists and the service is working!</p>
+        <p>Can't access this account!</p>
+        <p style="color: black;">Please verify if the account really exists.</p>
+        <p style="color: black;">Please check if the service is working.</p>
     </div>
 
 </div>

@@ -98,7 +98,7 @@ export class AccountDetailsComponent implements OnInit {
     this.currentFileUpload = this.selectedFiles.item(0) as any;
     this.uploadService.pushFileToStorage(this.currentFileUpload, this.currentAccount.id).subscribe(event => {
       //this.selectedFiles = undefined as any;
-      this.file = this.currentAccount.id + this.currentFileUpload.name.substring(this.currentFileUpload.name.length - 5, this.currentFileUpload.name.length);
+      this.file = this.currentAccount.id + '.png';
       this.messageFile = "File uploaded successfully!";
     }, err => this.messageFile = "Error when try upload the file!");
     this.changedImage(event);
@@ -112,7 +112,7 @@ export class AccountDetailsComponent implements OnInit {
     if(this.changeImage) {
        return 'https://ioblue.s3.us-east-2.amazonaws.com/' + this.currentAccount.id + '.png?' + (new Date()).getTime();
     }
-    return null;
+    return 'https://ioblue.s3.us-east-2.amazonaws.com/' + this.currentAccount.id + '.png?' ;
   }
 
   imageExists() {
