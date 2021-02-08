@@ -1,0 +1,143 @@
+<form [formGroup]="form" name=form >
+<div class="col-8">
+    <div>
+      <div *ngIf="!submitted">
+          <div class="form-group">
+            <label><strong>Type:</strong></label>
+            <label for="type" class="radio-inline">
+              <input
+                type="radio"
+                id="cpf"
+                [(ngModel)]="account.type"
+                name="type"
+                formControlName="type"
+                value="CPF"
+              />
+              CPF
+            </label>
+
+          <label for="cnpj" class="radio-inline">
+            <input
+              type="radio"
+              id="cnpj"
+              [(ngModel)]="account.type"
+              name="type"
+              formControlName="type"
+              value="CNPJ"
+            />
+            CNPJ
+          </label>
+        </div>
+
+        <div *ngIf="f.type.touched && f.type.invalid" class="alert alert-danger">
+          <div>Type is required.</div>
+       </div>
+
+        <div class="form-group">
+          <label for="doc"><strong>Document:</strong></label>
+          <input
+            required
+            formControlName="doc"
+            class="form-control"
+            id="doc"
+            [(ngModel)]="account.doc"
+            name="doc"
+          />
+        </div>
+
+        <div *ngIf="f.doc.touched && f.doc.invalid" class="alert alert-danger">
+          <div>Doc is required.</div>
+        </div>
+  
+        <div class="form-group">
+          <label for="category"><strong>Category:</strong></label>
+          <select name="category" class="form-control" [(ngModel)]="account.category" formControlName="category" required>
+            <option disabled>---- Select One ----</option>
+            <option *ngFor="let cat of categories">{{cat}}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="agency"><strong>Agency:</strong></label>
+          <input
+            formControlName="agency"
+            readonly
+            class="form-control"
+            id="agency"
+            [(ngModel)]="account.agency"
+            name="agency"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="number"><strong>Number:</strong></label>
+          <input
+            formControlName="number"
+            readonly
+            class="form-control"
+            id="number"
+            [(ngModel)]="account.number"
+            name="number"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="description"><strong>Description</strong></label>
+          <input
+            formControlName="description"
+            class="form-control"
+            id="description"
+            [(ngModel)]="account.description"
+            name="description"
+          />
+        </div>
+
+        <button (click)="saveAccount()" [disabled]="!form.valid" class="btn btn-success"><strong>Save</strong></button>
+      </div>
+  
+      <div *ngIf="submitted">
+        <div style="text-align: center; margin-bottom: 26px; color: darkblue;">
+          <h4>Account was submitted successfully!</h4>
+        </div>
+
+        <div *ngIf="account" class="details">
+          <h5 style="margin-bottom: 13px; color: orangered;">Account Sumary</h5>
+          <div>
+            <label><strong>Category:</strong></label> {{ account.category }}
+          </div>
+          <div>
+            <label><strong>Description:</strong></label>
+            {{ account.description }}
+          </div>
+  
+          <div>
+            <label><strong>Agency:</strong></label>
+            {{ account.agency }}
+          </div>
+          <div>
+            <label><strong>Number:</strong></label>
+            {{ account.number }}
+          </div>
+          <div>
+            <label><strong>Document:</strong></label>
+            {{ account.doc }}
+          </div>
+          <div>
+            <label><strong>Type:</strong></label>
+            {{ account.type }}
+          </div>
+          <div>
+            <label><strong>Status:</strong></label>
+            {{ "Active"  }}
+            <div style="display: inline-block;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-success new" (click)="newAccount()"><strong>New Account</strong></button>
+      </div>
+    </div>
+  </div>
+</form>
