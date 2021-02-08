@@ -1,0 +1,33 @@
+.search {
+  color: white;
+  background-color: orangered;
+}
+
+.search:hover {
+  color: yellow;
+  border-color: blue;
+}
+
+.find:hover {
+  border-color: blue;
+}
+
+.details {
+    border: red 1px solid;
+    border-radius: 26px;
+    font-size: 13px;
+    padding: 26px;
+}
+
+.edit {
+  background: red;
+  color: white;
+  float: right;
+  font-size: 13px;
+}
+
+h4, h3 {
+  color: darkblue;
+  margin-bottom: 26px;
+  font-weight: bold;
+}

@@ -1,0 +1,105 @@
+<div style="margin-bottom: 26px;">
+  <h3>Welcome to iOBlue Accounts Manager!</h3>
+</div>
+<div class="list row" style="margin-bottom: 26px;">
+    <div class="col-md-4">      
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control find"
+          placeholder="Find Accounts by Document"
+          [(ngModel)]="doc"
+          
+        />
+        <div class="input-group-append">
+          <button
+            class="btn btn-outline-secondary search"
+            type="button"
+            (click)="findByDoc()"
+          >
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="list row" style="margin-bottom: 26px;">
+    <div class="col-md-4">
+      <h4>Accounts List</h4>
+      <ul class="list-group">
+        <li
+          class="list-group-item"
+          *ngFor="let account of accounts; let i = index"
+          [class.active]="i == currentIndex"
+          (click)="setActiveAccount(account, i)"
+        >
+          <div class="badge badge-primary">{{ account.category  }}</div>
+          <div class="badge badge-dark">{{ account.agency }}</div>
+          <div class="badge badge-dark">{{ account.number}}</div>
+          <div class="badge badge-secondary">{{ account.doc }}</div>
+        </li>
+      </ul>
+  
+      <button class="btn btn-sm btn-danger" style="margin-top: 26px;" (click)="removeAllAccounts()" [disabled]="accounts == null || accounts.length < 1">
+        Remove All
+      </button>
+    </div>
+    <div class="col-md-4" style="margin-top: 69px; min-width: 369px;">
+      <div *ngIf="currentAccount" class="details">
+        <h4 style="text-align: center;">Account Details</h4>
+
+        <a class="edit" class="badge edit" routerLink="/accounts/{{ currentAccount.id }}">
+          Edit
+        </a>
+
+        <div style="text-align: center; margin-bottom: 26px; position: absolute; right: 42px; top: 126px;">
+          <img id="photo" [src]="getLinkPicture()" width="126px" height="126px"  style=" border-radius: 50%;"
+              onError="this.src='https://t4.ftcdn.net/jpg/03/32/59/65/360_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg'" />
+        </div>
+
+        <div>
+          <label><strong>Category:</strong></label> {{ currentAccount.category }}
+        </div>
+        <div>
+          <label><strong>Description:</strong></label>
+          {{ currentAccount.description }}
+        </div>
+
+        <div>
+          <label><strong>Agency:</strong></label>
+          {{ currentAccount.agency }}
+        </div>
+        <div>
+          <label><strong>Number:</strong></label>
+          {{ currentAccount.number }}
+        </div>
+        <div>
+          <label><strong>Document:</strong></label>
+          {{ currentAccount.doc }}
+        </div>
+        <div>
+          <label><strong>Type:</strong></label>
+          {{ currentAccount.type }}
+        </div>
+        <div>
+          <label><strong>Status:</strong></label>
+          {{ currentAccount.active ? "Active" : "Inactive" }}
+          <div *ngIf="currentAccount.active" style="display: inline-block;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+            </svg>
+          </div>
+          <div *ngIf="!currentAccount.active" style="display: inline-block;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+  
+      <div *ngIf="!currentAccount" class="details">
+        <br />
+        <p>Choose an account to check details or update...</p>
+      </div>
+    </div>
+</div>
