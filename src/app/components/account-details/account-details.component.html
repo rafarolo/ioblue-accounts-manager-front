@@ -1,0 +1,153 @@
+<div>
+    <div *ngIf="currentAccount.id" class="edit-form">
+        <form>
+            <div style="position: absolute; left: 8%;" class="col-3">
+                <h4>Account Details</h4>
+
+                <div class="form-group">
+                    <label for="id"><strong>Id:</strong></label>
+                    <input readonly class="form-control" id="id" required [(ngModel)]="currentAccount.id" name="id" />
+                </div>
+
+                <div class="form-group">
+                    <label><strong>Type:</strong></label>
+                    <label for="cpf" class="radio-inline">
+                        <input type="radio" id="cpf" required [(ngModel)]="currentAccount.type" name="cpf"
+                            value="CPF" />
+                        CPF
+                    </label>
+
+                    <label for="cnpj" class="radio-inline">
+                        <input type="radio" id="cnpj" required [(ngModel)]="currentAccount.type" name="cnpj"
+                            value="CNPJ" />
+                        CNPJ
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="category"><strong>Category:</strong></label>
+                    <select name="category" class="form-control" [(ngModel)]="currentAccount.category">
+                        <option disabled>---- Select One ----</option>
+                        <option *ngFor="let cat of categories">{{cat}}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="agency"><strong>Agency:</strong></label>
+                    <input readonly class="form-control" id="agency" required [(ngModel)]="currentAccount.agency"
+                        name="agency" />
+                </div>
+
+                <div class="form-group">
+                    <label for="number"><strong>Number:</strong></label>
+                    <input readonly class="form-control" id="number" required [(ngModel)]="currentAccount.number"
+                        name="number" />
+                </div>
+
+                <div class="form-group">
+                    <label for="doc"><strong>Document:</strong></label>
+                    <input class="form-control" id="doc" required [(ngModel)]="currentAccount.doc" name="doc" />
+                </div>
+
+                <div class="form-group">
+                    <label for="description"><strong>Description</strong></label>
+                    <input class="form-control" id="description" required [(ngModel)]="currentAccount.description"
+                        name="description" />
+                </div>
+
+                <div>
+                    <label><strong>Status:</strong></label>
+                    {{ currentAccount.active ? "Active" : "Inactive" }}
+                    <div *ngIf="currentAccount.active" style="display: inline-block;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green"
+                            class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                        </svg>
+                    </div>
+                    <div *ngIf="!currentAccount.active" style="display: inline-block;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red"
+                            class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div style="position: absolute; bottom: 26px;">
+                <button class="badge badge-danger mr-2" (click)="deleteAccount()">
+                    Delete
+                </button>
+    
+                <button class="badge badge-primary mr-2" *ngIf="currentAccount.active" (click)="updateActive(false)">
+                    Inactivate
+                </button>
+    
+                <button *ngIf="!currentAccount.active" class="badge badge-primary mr-2" (click)="updateActive(true)">
+                    Activate
+                </button>
+    
+                <button type="submit" class="badge badge-success mb-2" (click)="updateAccount()">
+                    Update
+                </button>
+                
+                <div style="text-align: center; font-weight: bold; margin-top: 8px;">
+                    <p>{{ message }}</p>
+                </div>
+    
+            </div>
+
+            <script>
+                $scope.s3Url = 'https://ioblue.s3.us-east-2.amazonaws.com/';
+                var bucket = new AWS.S3({ params: { Bucket: 'ioblue' } });
+                bucket.listObjects(function (err, data) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(data);
+                        $scope.allImageData = data.Contents;
+                    }
+                });
+            </script>
+            <div style="position: absolute; right: 26%;" class="col-4">
+
+                <div style="text-align: center;">
+                    <h4>Photo Profile</h4>
+                    <img id="photo" [src]="getLinkPicture()" width="269px" height="269px"
+                        onError="this.src='https://t4.ftcdn.net/jpg/03/32/59/65/360_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg'" />
+                
+
+                <br><br><br>
+                <h4>File Manager</h4>
+
+                <label for="customFile" class="btn btn-primary">Select Photo</label>
+                <br>
+                <input type="text" placeholder="Selected file name" name="image" [(ngModel)]="file" *ngIf="selectedFiles" style="border: 0; text-align: center;" readonly/>
+                <br>
+                <input type="file" id="customFile" (change)="selectFile($event)" placeholder="File To Upload"
+                    accept="image/*" style="visibility: hidden;">
+                <br>
+                <button class="btn btn-dark" *ngIf="selectedFiles" (click)="upload()">
+                    Save
+                </button>
+                <br><br><br>
+                <!-- <input type="text" placeholder="Selected file name..." name="image" [(ngModel)]="selectedFiles[0].name" [disabled]="!selectedFiles"/> -->
+                <div *ngIf="imageExists()">
+                    <button class="btn btn-secondary" style="margin-left: 10px" (click)="viewFile()">View File</button>
+                    <button class="btn btn-danger" style="margin-left: 10px" (click)="deleteFile()">Delete File</button>
+                </div>
+                <div style="text-align: center; font-weight: bold; margin-top: 26px;">
+                    <p>{{ messageFile }}</p>
+                </div>
+            </div>
+            </div>
+        </form>
+    </div>
+
+    <div *ngIf="!currentAccount.id" style="font-weight: bold; margin-top: 26px; font-size: 26px;">
+        <br />
+        <p>Can't access this account, please verify if it really exists and the service is working!</p>
+    </div>
+
+</div>
